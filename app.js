@@ -1,21 +1,8 @@
-const getData = async () => {
-  const res = await fetch("https://corona-api.com/countries");
-  const data = await res.json();
-  console.log(data);
-  const res1 = await fetch(
-    "https://restcountries.herokuapp.com/api/v1/region/europe"
-  );
-  // const res1 = await fetch(
-  //   "https://cors-anywhere.herokuapp.com/restcountries.herokuapp.com/api/v1/region/europe"
-  // );
-  // const res1 = await fetch(
-  //   "https://api.allorigins.win/raw?url=https://restcountries.herokuapp.com/api/v1/region/europe"
-  // );
-  const data1 = await res1.json();
-  console.log(data1);
-};
+import { MainData } from "./appState.js";
 
-getData();
+// const coronaObj = await MainData.build();
+
+// console.log(coronaObj.coronaObj);
 
 function fetchData() {
   return [12, 19, 13, 5, 10, 3];
