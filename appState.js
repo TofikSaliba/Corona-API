@@ -1,31 +1,41 @@
+import { MyChart } from "./MyChart.js";
+
 export class MainData {
-  static async build() {
+  static async build(canvasEl) {
     const data = await MainData.fetchCoronaObj();
-    return new MainData(data);
+    return new MainData(data, canvasEl);
   }
 
   static fetchCoronaObj = async () => {
     try {
+      const localCoronaData = localStorage.getItem("coronaDataObj");
+      if (localCoronaData) {
+        const localData = JSON.parse(localCoronaData);
+        console.log("from local final", localData);
+        return localData;
+      }
       const res = await fetch("https://corona-api.com/countries");
       const data = await res.json();
-      const countries = await this.getCountriesByContinent();
-      this.assignCountries(data.data, countries);
-      return countries;
+      const countriesStats = await this.getCountriesByContinent();
+      this.assignCountries(data.data, countriesStats);
+      localStorage.setItem("coronaDataObj", JSON.stringify(countriesStats));
+      console.log("from fetch final", countriesStats);
+      return countriesStats;
     } catch (e) {
       console.log(e);
     }
   };
 
   static getCountriesByContinent = async () => {
-    const local = localStorage.getItem("continentObj");
-    if (local) {
-      const test = JSON.parse(local);
-      console.log("from local", test);
-      return test;
+    const localTemplate = localStorage.getItem("continentObj");
+    if (localTemplate) {
+      const template = JSON.parse(localTemplate);
+      console.log("from local", JSON.parse(localTemplate));
+      return template;
     }
     const countries = await this.fetchCountries();
     localStorage.setItem("continentObj", JSON.stringify(countries));
-    console.log("from fetch", countries);
+    console.log("from fetch", JSON.parse(localStorage.getItem("continentObj")));
     return countries;
   };
 
@@ -84,8 +94,8 @@ export class MainData {
     countryObj.critical = country.latest_data.critical;
   };
 
-  constructor(coronaObj) {
+  constructor(coronaObj, canvasEL) {
     this.coronaObj = coronaObj;
-    this.rowCounter = 0;
+    this.myChart = new MyChart(canvasEL);
   }
 }

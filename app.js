@@ -1,51 +1,23 @@
 import { MainData } from "./appState.js";
 
-// const coronaObj = await MainData.build();
+const ctx = document.getElementById("myChart").getContext("2d");
+const coronaObj = await MainData.build(ctx);
 
 // console.log(coronaObj.coronaObj);
 
 function fetchData() {
-  return [12, 19, 13, 5, 10, 3];
+  return [5, 1, 1, 5, 5, 1];
 }
 
 function fetchCountries() {
   return ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"];
 }
 
-const ctx = document.getElementById("myChart").getContext("2d");
-const myChart = new Chart(ctx, {
-  type: "line",
-  data: {
-    labels: fetchCountries(),
-    datasets: [
-      {
-        label: "# of Votes",
-        data: fetchData(),
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-        ],
-        borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)",
-        ],
-        borderWidth: 1,
-      },
-    ],
-  },
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-  },
-});
+let myChart = new Chart(coronaObj.myChart.canvasEl, coronaObj.myChart.config);
+
+setTimeout(() => {
+  coronaObj.myChart.setValues(fetchData());
+  coronaObj.myChart.setLabels(fetchCountries());
+  myChart.destroy();
+  myChart = new Chart(coronaObj.myChart.canvasEl, coronaObj.myChart.config);
+}, 3000);
