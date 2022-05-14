@@ -118,7 +118,7 @@ select:focus > option:checked {
   }
 }
 
-@media (max-width: 650px) {
+@media (max-width: 600px) {
   .mainContainer {
     display: none;
   }
