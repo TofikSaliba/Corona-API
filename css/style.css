@@ -123,17 +123,21 @@ select:focus > option:checked {
     display: none;
   }
 
+  body {
+    background: #444;
+  }
+
   .mobileMsg {
     display: block;
     width: 100%;
     height: 100%;
-    font-size: 10rem;
+    font-size: 7rem;
     display: flex;
+    padding: 10rem 1rem;
     justify-content: center;
     align-items: center;
     text-align: center;
-    background: #444;
     color: #fff;
-    line-height: 20rem;
+    line-height: 15rem;
   }
 }
