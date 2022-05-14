@@ -6,13 +6,22 @@ const btnsListener = () => {
   document.querySelector(".btnContainer").addEventListener("click", (e) => {
     let continent = e.target.getAttribute("data-continent");
     if (continent && continent !== coronaObj.pickedCont) {
+      document.querySelector(".spinnerDiv").style.display = "block";
+      document.querySelector(".chartContainer").style.display = "none";
       document.querySelector(".singleCountry").style.visibility = "hidden";
-      document.querySelector(".chartContainer").style.visibility = "visible";
+      checkDataValidity();
       coronaObj.pickedCont = continent;
       buttonCurrent(e.target);
       displayData(continent);
     }
   });
+};
+
+const checkDataValidity = async () => {
+  if (!MainData.isValid()) {
+    const newData = await MainData.fetchCoronaObj();
+    MainData.updateMainObj(newData);
+  }
 };
 
 const buttonCurrent = (target) => {
@@ -22,6 +31,8 @@ const buttonCurrent = (target) => {
 };
 
 const displayData = (continent) => {
+  document.querySelector(".spinnerDiv").style.display = "none";
+  document.querySelector(".chartContainer").style.display = "block";
   const countries = coronaObj.coronaObj[continent].map(
     (country) => country.name
   );
@@ -57,6 +68,7 @@ const updateSelect = (countries) => {
 const selectListener = () => {
   const singleCountryDivs = document.querySelectorAll(".singleCountry div");
   document.querySelector("#countriesSelect").addEventListener("input", (e) => {
+    checkDataValidity();
     let country = coronaObj.coronaObj[coronaObj.pickedCont].find(
       (countryObj) => {
         return countryObj.name === e.target.value;
@@ -90,8 +102,3 @@ const start = () => {
 };
 
 start();
-// console.log(coronaObj.coronaObj);
-
-let x = new Date();
-
-console.log(x.getTime());

@@ -8,9 +8,9 @@ export class MainData {
 
   static fetchCoronaObj = async () => {
     try {
-      const localCoronaData = this.isExpired();
+      const localCoronaData = this.isValid();
       if (localCoronaData) {
-        console.log("from local final", localCoronaData);
+        console.log("Retrieved main data from local", localCoronaData);
         return localCoronaData;
       }
       const res = await fetch("https://corona-api.com/countries");
@@ -20,14 +20,14 @@ export class MainData {
       this.filterNotFound(countriesStats);
       this.addExpiryProp(countriesStats);
       localStorage.setItem("coronaDataObj", JSON.stringify(countriesStats));
-      console.log("from fetch final", countriesStats);
+      console.log("Fetched main data from API", countriesStats);
       return countriesStats;
     } catch (e) {
       console.log(e);
     }
   };
 
-  static isExpired = () => {
+  static isValid = () => {
     const localCoronaData = localStorage.getItem("coronaDataObj");
     if (localCoronaData) {
       let time = new Date();
@@ -43,7 +43,6 @@ export class MainData {
     let date = new Date();
     countriesStats.expiry =
       date.getTime() + ((91 - date.getMinutes()) % 60) * 60000;
-    console.log(((91 - date.getMinutes()) % 60) * 60000);
   };
 
   static filterNotFound = (countriesStats) => {
@@ -59,12 +58,18 @@ export class MainData {
     const localTemplate = localStorage.getItem("continentObj");
     if (localTemplate) {
       const template = JSON.parse(localTemplate);
-      console.log("from local", JSON.parse(localTemplate));
+      console.log(
+        "Retrieved country names from local",
+        JSON.parse(localTemplate)
+      );
       return template;
     }
     const countries = await this.fetchCountries();
     localStorage.setItem("continentObj", JSON.stringify(countries));
-    console.log("from fetch", JSON.parse(localStorage.getItem("continentObj")));
+    console.log(
+      "Fetched country names from API",
+      JSON.parse(localStorage.getItem("continentObj"))
+    );
     return countries;
   };
 
@@ -117,6 +122,10 @@ export class MainData {
     countryObj.cases = country.latest_data.confirmed;
     countryObj.recovered = country.latest_data.recovered;
     countryObj.critical = country.latest_data.critical;
+  };
+
+  static updateMainObj = (newObj) => {
+    this.coronaObj = newObj;
   };
 
   constructor(coronaObj) {
