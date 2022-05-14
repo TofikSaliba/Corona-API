@@ -114,6 +114,10 @@ select:focus > option:checked {
     gap: 2rem;
   }
 
+  body {
+    height: 100vw;
+  }
+
   .singleCountry div {
     height: 4rem;
   }
@@ -134,7 +138,8 @@ select:focus > option:checked {
     height: 100%;
     font-size: 7rem;
     display: flex;
-    padding: 10rem 1rem;
+    margin-top: 20rem;
+    padding: 0 2rem;
     justify-content: center;
     align-items: center;
     text-align: center;
