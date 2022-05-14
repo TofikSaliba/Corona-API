@@ -1,26 +1,80 @@
 export class MyChart {
-  constructor(canvasElement) {
-    this.canvasEl = canvasElement;
+  constructor() {
+    this.canvasEl = document.getElementById("myChart").getContext("2d");
 
     this.config = {
       type: "bar",
       data: {
-        labels: ["January", "February", "March", "April", "May", "June"],
+        labels: [],
         datasets: [
           {
-            label: "My First dataset",
+            label: "Cases",
             backgroundColor: "rgb(255, 199, 132)",
             borderColor: "rgb(255, 99, 132)",
-            data: [10, 10, 5, 2, 20, 2],
+            data: [],
+          },
+          {
+            label: "Deaths",
+            backgroundColor: "rgb(255, 199, 132)",
+            borderColor: "rgb(255, 99, 132)",
+            data: [],
+          },
+          {
+            label: "Critical",
+            backgroundColor: "rgb(255, 199, 132)",
+            borderColor: "rgb(255, 99, 132)",
+            data: [],
+          },
+          {
+            label: "Recovered",
+            backgroundColor: "rgb(255, 199, 132)",
+            borderColor: "rgb(255, 99, 132)",
+            data: [],
           },
         ],
       },
-      options: {},
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: false,
+            text: "Chart.js Line Chart - Logarithmic",
+          },
+          legend: {
+            onHover: function (e) {
+              document.body.style.cursor = "pointer";
+            },
+            onLeave: function (e) {
+              document.body.style.cursor = "unset";
+            },
+          },
+        },
+        scales: {
+          x: {
+            grid: {
+              display: false,
+            },
+          },
+          y: {
+            type: "logarithmic",
+            min: 0,
+            grid: {
+              display: false,
+            },
+          },
+        },
+      },
     };
+
+    this.charVar = new Chart(this.canvasEl, this.config);
   }
 
-  setValues = (newVal) => {
-    this.config.data.datasets[0].data = newVal;
+  setValues = (statsArr) => {
+    this.config.data.datasets[0].data = statsArr[0];
+    this.config.data.datasets[1].data = statsArr[1];
+    this.config.data.datasets[2].data = statsArr[2];
+    this.config.data.datasets[3].data = statsArr[3];
   };
 
   setLabels = (newLabels) => {

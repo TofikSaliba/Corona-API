@@ -1,9 +1,9 @@
 import { MyChart } from "./MyChart.js";
 
 export class MainData {
-  static async build(canvasEl) {
+  static async build() {
     const data = await MainData.fetchCoronaObj();
-    return new MainData(data, canvasEl);
+    return new MainData(data);
   }
 
   static fetchCoronaObj = async () => {
@@ -18,12 +18,22 @@ export class MainData {
       const data = await res.json();
       const countriesStats = await this.getCountriesByContinent();
       this.assignCountries(data.data, countriesStats);
+      this.filterNotFound(countriesStats);
       localStorage.setItem("coronaDataObj", JSON.stringify(countriesStats));
       console.log("from fetch final", countriesStats);
       return countriesStats;
     } catch (e) {
       console.log(e);
     }
+  };
+
+  static filterNotFound = (countriesStats) => {
+    const continents = ["Asia", "Europe", "Africa", "Oceania", "Americas"];
+    continents.forEach((conti) => {
+      countriesStats[conti] = countriesStats[conti].filter(
+        (country) => country.deaths !== undefined
+      );
+    });
   };
 
   static getCountriesByContinent = async () => {
@@ -69,18 +79,14 @@ export class MainData {
   static assignCountries = (data, countries) => {
     const continents = ["Asia", "Europe", "Africa", "Oceania", "Americas"];
     data.forEach((country) => {
-      let flag = false;
       for (let continent of continents) {
-        for (let countryObj of countries[continent]) {
-          if (countryObj.name === country.name) {
-            this.addCountryStats(countryObj, country);
-            flag = true;
-            break;
-          }
+        let found = countries[continent].find((countryObj) => {
+          return countryObj.name === country.name;
+        });
+        if (found) {
+          this.addCountryStats(found, country);
+          break;
         }
-        if (flag) break;
-      }
-      if (country.name) {
       }
     });
   };
@@ -94,8 +100,9 @@ export class MainData {
     countryObj.critical = country.latest_data.critical;
   };
 
-  constructor(coronaObj, canvasEL) {
+  constructor(coronaObj) {
     this.coronaObj = coronaObj;
-    this.myChart = new MyChart(canvasEL);
+    this.myChart = new MyChart();
+    this.pickedCont = "";
   }
 }
