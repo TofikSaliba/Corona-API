@@ -6,12 +6,16 @@
 
 html {
   font-size: 10px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.mobileMsg {
+  display: none;
 }
 
 body {
   display: flex;
   justify-content: center;
-  height: 100vh;
 }
 
 #header {
@@ -26,7 +30,7 @@ body {
   gap: 3rem;
   align-items: center;
   width: 100%;
-  height: 90%;
+  height: 100%;
 }
 
 .btnContainer {
@@ -98,4 +102,38 @@ select:focus > option:checked {
   font-size: 2rem;
   border-radius: 5px;
   height: 4.5rem;
+}
+
+@media (max-width: 1000px) {
+  html {
+    font-size: 7px;
+  }
+
+  .mainContainer {
+    gap: 2rem;
+  }
+
+  .singleCountry div {
+    height: 4rem;
+  }
+}
+
+@media (max-width: 650px) {
+  .mainContainer {
+    display: none;
+  }
+
+  .mobileMsg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    font-size: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: #444;
+    color: #fff;
+    line-height: 20rem;
+  }
 }
