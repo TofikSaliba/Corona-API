@@ -9,26 +9,30 @@ html {
 }
 
 body {
+  display: flex;
+  justify-content: center;
   height: 100vh;
 }
 
 #header {
-  margin-top: 4rem;
   font-size: 4rem;
+  text-align: center;
 }
 
 .mainContainer {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 5rem;
+  gap: 3rem;
   align-items: center;
   width: 100%;
-  height: 70%;
+  height: 90%;
 }
 
 .btnContainer {
   display: flex;
+  flex-wrap: wrap;
+  margin: 0 1rem;
   gap: 2rem;
 }
 
@@ -42,6 +46,11 @@ body {
 }
 
 .chartContainer {
-  width: 50%;
+  width: 90%;
   height: 100%;
+  /* visibility: hidden; */
+}
+
+.current {
+  background-color: aqua;
 }

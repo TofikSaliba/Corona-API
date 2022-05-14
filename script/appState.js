@@ -103,6 +103,6 @@ export class MainData {
   constructor(coronaObj) {
     this.coronaObj = coronaObj;
     this.myChart = new MyChart();
-    this.pickedCont = "";
+    this.pickedCont = "Africa";
   }
 }

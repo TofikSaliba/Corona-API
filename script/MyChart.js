@@ -8,28 +8,31 @@ export class MyChart {
         labels: [],
         datasets: [
           {
-            label: "Cases",
+            label: "Number of Cases",
             backgroundColor: "rgb(255, 199, 132)",
-            borderColor: "rgb(255, 99, 132)",
+            borderColor: "rgb(3, 3, 3)",
             data: [],
           },
           {
-            label: "Deaths",
-            backgroundColor: "rgb(255, 199, 132)",
-            borderColor: "rgb(255, 99, 132)",
+            label: "Number of Deaths",
+            backgroundColor: "rgb(49, 49, 49)",
+            borderColor: "rgb(3, 3, 3)",
             data: [],
+            hidden: true,
           },
           {
-            label: "Critical",
-            backgroundColor: "rgb(255, 199, 132)",
-            borderColor: "rgb(255, 99, 132)",
+            label: "Number of Critical",
+            backgroundColor: "rgb(138, 4, 4)",
+            borderColor: "rgb(3, 3, 3)",
             data: [],
+            hidden: true,
           },
           {
-            label: "Recovered",
-            backgroundColor: "rgb(255, 199, 132)",
-            borderColor: "rgb(255, 99, 132)",
+            label: "Number of Recovered",
+            backgroundColor: "rgb(13, 120, 241)",
+            borderColor: "rgb(3, 3, 3)",
             data: [],
+            hidden: true,
           },
         ],
       },
@@ -68,6 +71,8 @@ export class MyChart {
     };
 
     this.charVar = new Chart(this.canvasEl, this.config);
+
+    Chart.defaults.font.size = 10;
   }
 
   setValues = (statsArr) => {

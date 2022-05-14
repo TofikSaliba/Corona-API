@@ -6,10 +6,18 @@ const btnsListener = () => {
   document.querySelector(".btnContainer").addEventListener("click", (e) => {
     let continent = e.target.getAttribute("data-continent");
     if (continent && continent !== coronaObj.pickedCont) {
+      document.querySelector(".chartContainer").style.visibility = "visible";
       coronaObj.pickedCont = continent;
+      buttonCurrent(e.target);
       displayData(continent);
     }
   });
+};
+
+const buttonCurrent = (target) => {
+  const btns = document.querySelectorAll(".btnContainer button");
+  btns.forEach((btn) => btn.classList.remove("current"));
+  target.classList.toggle("current");
 };
 
 const displayData = (continent) => {
@@ -26,8 +34,12 @@ const displayData = (continent) => {
   });
   coronaObj.myChart.setValues(statsArr);
   coronaObj.myChart.charVar.update();
-  console.log(countries);
 };
 
-btnsListener();
+const start = () => {
+  displayData("Africa");
+  btnsListener();
+};
+
+start();
 // console.log(coronaObj.coronaObj);
