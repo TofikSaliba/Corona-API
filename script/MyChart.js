@@ -9,7 +9,7 @@ export class MyChart {
         datasets: [
           {
             label: "Number of Cases",
-            backgroundColor: "rgb(255, 199, 132)",
+            backgroundColor: "rgb(23, 104, 86)",
             borderColor: "rgb(3, 3, 3)",
             data: [],
           },

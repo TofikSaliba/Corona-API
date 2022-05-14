@@ -8,23 +8,42 @@ export class MainData {
 
   static fetchCoronaObj = async () => {
     try {
-      const localCoronaData = localStorage.getItem("coronaDataObj");
+      const localCoronaData = this.isExpired();
       if (localCoronaData) {
-        const localData = JSON.parse(localCoronaData);
-        console.log("from local final", localData);
-        return localData;
+        console.log("from local final", localCoronaData);
+        return localCoronaData;
       }
       const res = await fetch("https://corona-api.com/countries");
       const data = await res.json();
       const countriesStats = await this.getCountriesByContinent();
       this.assignCountries(data.data, countriesStats);
       this.filterNotFound(countriesStats);
+      this.addExpiryProp(countriesStats);
       localStorage.setItem("coronaDataObj", JSON.stringify(countriesStats));
       console.log("from fetch final", countriesStats);
       return countriesStats;
     } catch (e) {
       console.log(e);
     }
+  };
+
+  static isExpired = () => {
+    const localCoronaData = localStorage.getItem("coronaDataObj");
+    if (localCoronaData) {
+      let time = new Date();
+      const localData = JSON.parse(localCoronaData);
+      if (localData.expiry < time.getTime()) {
+        return false;
+      }
+      return localData;
+    }
+  };
+
+  static addExpiryProp = (countriesStats) => {
+    let date = new Date();
+    countriesStats.expiry =
+      date.getTime() + ((91 - date.getMinutes()) % 60) * 60000;
+    console.log(((91 - date.getMinutes()) % 60) * 60000);
   };
 
   static filterNotFound = (countriesStats) => {
